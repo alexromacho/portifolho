@@ -1,0 +1,18 @@
+body {
+    background-image: url(../img/fundo.jpg);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-color: white; 
+
+}
+h1 {color: blue; text-align: center;}
+p {text-align: center;}
+
+strong {color: blue;}
+
+button {
+    background-color: rgb(red, green, blue) ;
+    color: rgb(183, 48, 48);
+    border: none;
+
+}
