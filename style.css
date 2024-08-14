@@ -1,18 +1,107 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Pacifico&display=swap" rel="stylesheet");
+@import url("https://fonts.googleapis.com/css2?family=Montez&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Pacifico&display=swap" rel="stylesheet");
+
+
 body {
     background-image: url(../img/fundo.jpg);
     background-attachment: fixed;
     background-repeat: no-repeat;
     background-color: white; 
+    height: 100vh;
 
 }
+
 h1 {color: blue; text-align: center;}
-p {text-align: center;}
+
+p {text-align: center;
+    font-family: "Montez", cursive;
+    font-size: 24px;
+}
 
 strong {color: blue;}
 
-button {
-    background-color: rgb(red, green, blue) ;
-    color: rgb(183, 48, 48);
-    border: none;
+.apresentacao__link{
+    display: flex;
+    justify-content: space-between;
+}
+.apressentacao_links_links {
+    display: inline-block;
+    background-color: aquamarine;
+    width: 130px;
+    height: 40px;
+    text-align: center;
+    border-radius: 12px;
+    font-size: 24px;
+    color: violet;
+    font-family: "Montez", cursive;
+    border: 2px solid;
+    cursor: pointer;
+    margin: 10px 10px ;
+    transition: all 0.5s;
+    padding: 5px 
+    
+    
+}
+.apressentacao_links_links span{
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+    
+}
 
+.apressentacao_links_links::after{
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+    
+    
+}
+
+
+.apressentacao_links_links:hover span {
+    padding-right: 25px;
+    
+}  
+    
+.apressentacao_links_links:hover span:after {
+        opacity: 1;
+        right: 0;}
+
+.apresentacao {
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+    justify-content: start;
+    
+}
+
+.apresentacao__titulo{
+    font-size: 40px;
+    font-family: "Pacifico" , cursive;
+    font-style: normal;
+}
+.apresentacao__paragrafo{
+    width: 615px;
+    
+} 
+.texto_redes{
+    margin: 20px;
+    font-size: 20px;
+    color: black;
+    text-decoration: ;
+    font-family: "Pacifico" , cursive;
+}
+
+.button {
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    font-size: 50%;
+    color: yellow;
+    justify-content: flex-end;
+    
 }
