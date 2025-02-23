@@ -105,3 +105,15 @@ strong {color: blue;}
     justify-content: flex-end;
     
 }
+
+.rodape{
+    background-color: white !important;b(181, 177, 177);
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(20, 7, 7);
+    padding: 5px;
+}
