@@ -307,7 +307,16 @@ th:last-child {
 }
 
 .pedido--simples .lista-itens li {
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 1fr) minmax(96px, 120px) auto;
+}
+
+.valor-item {
+    border: 1px solid #b8c6d6;
+    border-radius: 6px;
+    font-size: 1rem;
+    min-width: 0;
+    padding: 8px;
+    width: 100%;
 }
 
 .remover-item {

@@ -29,7 +29,7 @@ document.addEventListener("click", (event) => {
 });
 
 document.addEventListener("input", (event) => {
-    if (event.target.matches(".qty__input")) {
+    if (event.target.matches(".qty__input, .valor-item")) {
         salvarItensAdicionados(event.target.closest("form"));
     }
 });
@@ -179,8 +179,10 @@ function alterarQuantidade(botao) {
 
 function adicionarItemNaLista(formulario) {
     const itemInput = formulario.querySelector('[name="itemExtra"]');
+    const valorInput = formulario.querySelector('[name="valorExtra"]');
     const mensagem = formulario.querySelector(".pedido__mensagem");
     const item = itemInput.value.trim();
+    const valor = valorInput ? valorInput.value.trim() : "";
 
     if (!item) {
         if (mensagem) {
@@ -193,7 +195,7 @@ function adicionarItemNaLista(formulario) {
     if (formulario.id === "pedidoVero") {
         adicionarLinhaNaTabela(formulario, item);
     } else if (formulario.id === "pedidoWr") {
-        adicionarLinhaSimples(formulario, item);
+        adicionarLinhaSimples(formulario, item, valor);
     } else {
         adicionarLinhaNaLista(formulario, item);
     }
@@ -205,6 +207,9 @@ function adicionarItemNaLista(formulario) {
     }
 
     itemInput.value = "";
+    if (valorInput) {
+        valorInput.value = "";
+    }
     itemInput.focus();
 }
 
@@ -288,7 +293,7 @@ function restaurarItensAdicionados(formulario) {
                 item.quantidade
             );
         } else if (formulario.id === "pedidoWr") {
-            adicionarLinhaSimples(formulario, item.produto);
+            adicionarLinhaSimples(formulario, item.produto, item.valor);
         } else {
             adicionarLinhaNaLista(formulario, item.produto, item.quantidade);
         }
@@ -314,18 +319,21 @@ function obterItensParaSalvar(formulario) {
     }
 
     return Array.from(formulario.querySelectorAll(".lista-itens li")).map((linha) => {
-        return {
-            produto: linha.dataset.produto,
-            quantidade: linha.querySelector(".qty") ? obterQuantidade(linha.querySelector(".qty")) : 1,
-        };
-    });
+            return {
+                produto: linha.dataset.produto,
+                quantidade: linha.querySelector(".qty") ? obterQuantidade(linha.querySelector(".qty")) : 1,
+                valor: linha.querySelector(".valor-item") ? linha.querySelector(".valor-item").value.trim() : "",
+            };
+        });
 }
 
 function buscarItensAdicionados(formulario) {
     return Array.from(formulario.querySelectorAll(".lista-itens li"))
         .map((linha) => {
             if (formulario.id === "pedidoWr") {
-                return linha.dataset.produto;
+                const valor = linha.querySelector(".valor-item").value.trim();
+
+                return valor ? `${linha.dataset.produto} - R$ ${valor}` : linha.dataset.produto;
             }
 
             const quantidade = obterQuantidade(linha.querySelector(".qty"));
@@ -335,13 +343,14 @@ function buscarItensAdicionados(formulario) {
         .filter((item) => !item.startsWith("0x "));
 }
 
-function adicionarLinhaSimples(formulario, item) {
+function adicionarLinhaSimples(formulario, item, valor = "") {
     const lista = formulario.querySelector(".lista-itens");
     const linha = document.createElement("li");
 
     linha.dataset.produto = item;
     linha.innerHTML = `
         <span>${escaparHtml(item)}</span>
+        <input class="valor-item" type="text" inputmode="decimal" aria-label="Valor" placeholder="Valor" value="${escaparHtml(valor)}">
         <button class="remover-item" type="button" data-remove-item>Remover</button>
     `;
 
