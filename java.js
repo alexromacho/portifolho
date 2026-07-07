@@ -36,9 +36,17 @@ document.addEventListener("input", (event) => {
 
 if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
-        navigator.serviceWorker.register("service-worker.js");
+        navigator.serviceWorker.register("service-worker.js").then((registro) => {
+            registro.update();
+        });
     });
 }
+
+window.addEventListener("pagehide", () => {
+    document.querySelectorAll("form").forEach((formulario) => {
+        salvarItensAdicionados(formulario);
+    });
+});
 
 document.querySelectorAll("#pedidoVero tbody tr").forEach((linha) => {
     adicionarBotaoRemoverLinha(linha);
@@ -232,11 +240,15 @@ function salvarItensAdicionados(formulario) {
 
     const itens = obterItensParaSalvar(formulario);
 
-    localStorage.setItem(`itens-${formulario.id}`, JSON.stringify(itens));
+    try {
+        localStorage.setItem(`itens-${formulario.id}`, JSON.stringify(itens));
+    } catch (erro) {
+        console.warn("Nao foi possivel salvar os itens.", erro);
+    }
 }
 
 function restaurarItensAdicionados(formulario) {
-    const itensSalvos = JSON.parse(localStorage.getItem(`itens-${formulario.id}`) || "[]");
+    const itensSalvos = lerItensSalvos(formulario);
 
     itensSalvos.forEach((item) => {
         if (formulario.id === "pedidoVero") {
@@ -249,6 +261,14 @@ function restaurarItensAdicionados(formulario) {
             adicionarLinhaNaLista(formulario, item.produto, item.quantidade);
         }
     });
+}
+
+function lerItensSalvos(formulario) {
+    try {
+        return JSON.parse(localStorage.getItem(`itens-${formulario.id}`) || "[]");
+    } catch {
+        return [];
+    }
 }
 
 function obterItensParaSalvar(formulario) {

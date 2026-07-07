@@ -1,4 +1,4 @@
-const CACHE_NAME = "pedidos-fornecedores-v7";
+const CACHE_NAME = "pedidos-fornecedores-v8";
 const ARQUIVOS = [
     "./",
     "./index.html",
@@ -16,6 +16,8 @@ const ARQUIVOS = [
 ];
 
 self.addEventListener("install", (event) => {
+    self.skipWaiting();
+
     event.waitUntil(
         caches.open(CACHE_NAME).then((cache) => cache.addAll(ARQUIVOS))
     );
@@ -29,7 +31,7 @@ self.addEventListener("activate", (event) => {
                     .filter((nome) => nome !== CACHE_NAME)
                     .map((nome) => caches.delete(nome))
             );
-        })
+        }).then(() => self.clients.claim())
     );
 });
 
@@ -39,8 +41,16 @@ self.addEventListener("fetch", (event) => {
     }
 
     event.respondWith(
-        caches.match(event.request).then((resposta) => {
-            return resposta || fetch(event.request);
-        })
+        fetch(event.request)
+            .then((resposta) => {
+                const copia = resposta.clone();
+
+                caches.open(CACHE_NAME).then((cache) => {
+                    cache.put(event.request, copia);
+                });
+
+                return resposta;
+            })
+            .catch(() => caches.match(event.request))
     );
 });
