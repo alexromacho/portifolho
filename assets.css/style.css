@@ -157,7 +157,7 @@ th {
 
 td:last-child,
 th:last-child {
-    width: 190px;
+    width: 260px;
 }
 
 .qty {
@@ -271,21 +271,30 @@ th:last-child {
     padding: 10px 12px;
 }
 
+.pedido--simples .lista-itens li {
+    grid-template-columns: minmax(0, 1fr) auto;
+}
+
 .remover-item {
-    background: transparent;
-    border: 0;
+    align-items: center;
+    background: #fff1f0;
+    border: 1px solid #f0b8b4;
+    border-radius: 6px;
     color: #b42318;
     cursor: pointer;
+    display: inline-flex;
     font-weight: 700;
-    height: auto;
-    width: auto;
+    height: 32px;
+    justify-content: center;
+    min-width: 82px;
+    padding: 0 10px;
 }
 
 .qty .remover-item {
-    border: 0;
-    height: auto;
+    border: 1px solid #f0b8b4;
+    height: 32px;
     min-width: max-content;
-    padding: 6px 8px;
+    padding: 0 10px;
     width: auto;
 }
 

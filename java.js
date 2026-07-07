@@ -164,6 +164,8 @@ function adicionarItemNaLista(formulario) {
 
     if (formulario.id === "pedidoVero") {
         adicionarLinhaNaTabela(formulario, item);
+    } else if (formulario.id === "pedidoWr") {
+        adicionarLinhaSimples(formulario, item);
     } else {
         adicionarLinhaNaLista(formulario, item);
     }
@@ -257,6 +259,8 @@ function restaurarItensAdicionados(formulario) {
                 obterCampoQuantidade(formulario.querySelector("tbody tr:last-child .qty")),
                 item.quantidade
             );
+        } else if (formulario.id === "pedidoWr") {
+            adicionarLinhaSimples(formulario, item.produto);
         } else {
             adicionarLinhaNaLista(formulario, item.produto, item.quantidade);
         }
@@ -284,7 +288,7 @@ function obterItensParaSalvar(formulario) {
     return Array.from(formulario.querySelectorAll(".lista-itens li")).map((linha) => {
         return {
             produto: linha.dataset.produto,
-            quantidade: obterQuantidade(linha.querySelector(".qty")),
+            quantidade: linha.querySelector(".qty") ? obterQuantidade(linha.querySelector(".qty")) : 1,
         };
     });
 }
@@ -292,11 +296,28 @@ function obterItensParaSalvar(formulario) {
 function buscarItensAdicionados(formulario) {
     return Array.from(formulario.querySelectorAll(".lista-itens li"))
         .map((linha) => {
+            if (formulario.id === "pedidoWr") {
+                return linha.dataset.produto;
+            }
+
             const quantidade = obterQuantidade(linha.querySelector(".qty"));
 
             return `${quantidade}x ${linha.dataset.produto}`;
         })
         .filter((item) => !item.startsWith("0x "));
+}
+
+function adicionarLinhaSimples(formulario, item) {
+    const lista = formulario.querySelector(".lista-itens");
+    const linha = document.createElement("li");
+
+    linha.dataset.produto = item;
+    linha.innerHTML = `
+        <span>${escaparHtml(item)}</span>
+        <button class="remover-item" type="button" data-remove-item>Remover</button>
+    `;
+
+    lista.appendChild(linha);
 }
 
 function enviarPedidoWhatsapp(fornecedor, itens) {

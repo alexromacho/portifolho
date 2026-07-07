@@ -1,4 +1,4 @@
-const CACHE_NAME = "pedidos-fornecedores-v8";
+const CACHE_NAME = "pedidos-fornecedores-v9";
 const ARQUIVOS = [
     "./",
     "./index.html",

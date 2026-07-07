@@ -23,47 +23,49 @@
         </nav>
     </header>
 
-    <h1>Caio Aragua</h1>
+    <main class="content">
+        <h1>Caio Aragua</h1>
 
-    <form class="formulario" id="pedidoAgua">
+        <form class="pedido" id="pedidoAgua">
 
-    <div class="campo">
-        <label for="aguaSemGas">Água sem gás</label>
-        <input
-            type="number"
-            id="aguaSemGas"
-            name="aguaSemGas"
-            min="0">
-    </div>
+            <div class="campo">
+                <label for="aguaSemGas">Água sem gás</label>
+                <input
+                    type="number"
+                    id="aguaSemGas"
+                    name="aguaSemGas"
+                    min="0">
+            </div>
 
-    <div class="campo">
-        <label for="aguaComGas">Água com gás</label>
-        <input
-            type="number"
-            id="aguaComGas"
-            name="aguaComGas"
-            min="0">
-    </div>
+            <div class="campo">
+                <label for="aguaComGas">Água com gás</label>
+                <input
+                    type="number"
+                    id="aguaComGas"
+                    name="aguaComGas"
+                    min="0">
+            </div>
 
-    <fieldset class="item-extra">
-        <legend>Adicionar outro item</legend>
+            <fieldset class="item-extra">
+                <legend>Adicionar outro item</legend>
 
-        <div class="campo">
-            <label for="itemExtraAgua">Item</label>
-            <input type="text" id="itemExtraAgua" name="itemExtra" placeholder="Nome do item">
-        </div>
+                <div class="campo">
+                    <label for="itemExtraAgua">Item</label>
+                    <input type="text" id="itemExtraAgua" name="itemExtra" placeholder="Nome do item">
+                </div>
 
-        <button class="botao botao--secundario" type="button" data-add-item>Adicionar item na lista</button>
-    </fieldset>
+                <button class="botao botao--secundario" type="button" data-add-item>Adicionar item na lista</button>
+            </fieldset>
 
-    <ul class="lista-itens" aria-label="Itens adicionados"></ul>
-    <p class="pedido__mensagem" id="mensagemAgua" aria-live="polite"></p>
+            <ul class="lista-itens" aria-label="Itens adicionados"></ul>
+            <p class="pedido__mensagem" id="mensagemAgua" aria-live="polite"></p>
 
-    <button class="botao" type="submit">
-        Enviar pedido pelo WhatsApp
-    </button>
+            <button class="botao" type="submit">
+                Enviar pedido pelo WhatsApp
+            </button>
 
-    </form>
+        </form>
+    </main>
 
     <footer class="rodape">
         <p>Criado por Alex</p>
