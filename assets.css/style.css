@@ -159,7 +159,7 @@ th {
     gap: 8px;
 }
 
-.qty button {
+.qty button:not(.remover-item) {
     border: 1px solid #263c96;
     border-radius: 6px;
     color: #263c96;
@@ -257,6 +257,8 @@ th {
 .qty .remover-item {
     border: 0;
     height: auto;
+    min-width: max-content;
+    padding: 6px 8px;
     width: auto;
 }
 
