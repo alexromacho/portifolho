@@ -252,6 +252,41 @@ th:last-child {
     width: 100%;
 }
 
+.fornecedores-lista {
+    display: grid;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.fornecedor-card {
+    background: #ffffff;
+    border: 1px solid #d9e2ec;
+    border-radius: 8px;
+    display: grid;
+    gap: 12px;
+    padding: 16px;
+}
+
+.fornecedor-card h2 {
+    color: #263c96;
+    font-size: 1.15rem;
+    margin: 0;
+}
+
+.fornecedor-card p {
+    margin: 0;
+}
+
+.fornecedor-acoes {
+    display: grid;
+    gap: 8px;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+}
+
+.fornecedor-acoes .botao {
+    text-align: center;
+}
+
 .lista-itens {
     display: grid;
     gap: 8px;

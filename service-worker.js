@@ -1,10 +1,11 @@
-const CACHE_NAME = "pedidos-fornecedores-v9";
+const CACHE_NAME = "pedidos-fornecedores-v10";
 const ARQUIVOS = [
     "./",
     "./index.html",
     "./vero.html",
     "./aragua.html",
     "./wrEmbalagem.html",
+    "./fornecedores.html",
     "./assets.css/style.css",
     "./java.js",
     "./manifest.json",

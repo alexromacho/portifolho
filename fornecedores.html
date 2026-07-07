@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#263c96">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Pedidos">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>Fornecedores</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="img/html.png">
+    <link rel="stylesheet" href="assets.css/style.css">
+    <script src="java.js" defer></script>
+</head>
+<body>
+    <header class="cabecalho">
+        <nav class="lista__de__compra" aria-label="Menu principal">
+            <a class="lista__menu" href="index.html">Inicio</a>
+            <a class="lista__menu" href="fornecedores.html">Fornecedores</a>
+        </nav>
+    </header>
+
+    <main class="content">
+        <h1>Fornecedores</h1>
+
+        <section class="fornecedores-lista" aria-label="Fornecedores cadastrados">
+            <article class="fornecedor-card">
+                <h2>Vero Imports</h2>
+                <div class="fornecedor-acoes">
+                    <a class="botao" href="vero.html">Pedido</a>
+                    <a class="botao botao--whatsapp" href="https://wa.me/5514996511343" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="fornecedor-card">
+                <h2>Aragua</h2>
+                <div class="fornecedor-acoes">
+                    <a class="botao" href="aragua.html">Pedido</a>
+                    <a class="botao botao--whatsapp" href="https://wa.me/5514981012021" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="fornecedor-card">
+                <h2>WR Embalagens</h2>
+                <div class="fornecedor-acoes">
+                    <a class="botao" href="wrEmbalagem.html">Pedido</a>
+                    <a class="botao botao--whatsapp" href="https://wa.me/551432236491" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+                </div>
+            </article>
+        </section>
+
+        <form class="pedido" id="fornecedorForm">
+            <fieldset class="item-extra">
+                <legend>Adicionar fornecedor</legend>
+
+                <div class="campo">
+                    <label for="fornecedorNome">Nome</label>
+                    <input type="text" id="fornecedorNome" name="nome" placeholder="Nome do fornecedor" required>
+                </div>
+
+                <div class="campo">
+                    <label for="fornecedorWhatsapp">WhatsApp</label>
+                    <input type="tel" id="fornecedorWhatsapp" name="whatsapp" placeholder="14999999999">
+                </div>
+
+                <div class="campo">
+                    <label for="fornecedorSite">Site</label>
+                    <input type="url" id="fornecedorSite" name="site" placeholder="https://exemplo.com">
+                </div>
+
+                <button class="botao botao--secundario" type="submit">Adicionar fornecedor</button>
+            </fieldset>
+        </form>
+
+        <section class="fornecedores-lista" id="fornecedoresAdicionados" aria-label="Fornecedores adicionados"></section>
+    </main>
+
+    <footer class="rodape">
+        <p>Criado por Alex</p>
+    </footer>
+</body>
+</html>

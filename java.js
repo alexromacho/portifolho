@@ -135,6 +135,34 @@ if (pedidoWr) {
     });
 }
 
+const fornecedorForm = document.querySelector("#fornecedorForm");
+
+if (fornecedorForm) {
+    renderizarFornecedoresAdicionados();
+
+    fornecedorForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const dados = new FormData(fornecedorForm);
+        const fornecedor = {
+            id: criarId(),
+            nome: String(dados.get("nome")).trim(),
+            whatsapp: limparTelefone(String(dados.get("whatsapp")).trim()),
+            site: normalizarSite(String(dados.get("site")).trim()),
+        };
+
+        if (!fornecedor.nome) {
+            return;
+        }
+
+        const fornecedores = lerFornecedoresAdicionados();
+        fornecedores.push(fornecedor);
+        salvarFornecedoresAdicionados(fornecedores);
+        fornecedorForm.reset();
+        renderizarFornecedoresAdicionados();
+    });
+}
+
 function alterarQuantidade(botao) {
     const controle = botao.closest(".qty");
     const botoes = Array.from(controle.querySelectorAll("button"));
@@ -333,6 +361,85 @@ function enviarPedidoWhatsapp(fornecedor, itens) {
     ].join("\n");
 
     window.open(`https://wa.me/${telefones[fornecedor]}?text=${encodeURIComponent(texto)}`, "_blank");
+}
+
+function lerFornecedoresAdicionados() {
+    try {
+        return JSON.parse(localStorage.getItem("fornecedores-adicionados") || "[]");
+    } catch {
+        return [];
+    }
+}
+
+function salvarFornecedoresAdicionados(fornecedores) {
+    localStorage.setItem("fornecedores-adicionados", JSON.stringify(fornecedores));
+}
+
+function renderizarFornecedoresAdicionados() {
+    const lista = document.querySelector("#fornecedoresAdicionados");
+
+    if (!lista) {
+        return;
+    }
+
+    const fornecedores = lerFornecedoresAdicionados();
+    lista.innerHTML = "";
+
+    fornecedores.forEach((fornecedor) => {
+        const card = document.createElement("article");
+        card.className = "fornecedor-card";
+        card.innerHTML = `
+            <h2>${escaparHtml(fornecedor.nome)}</h2>
+            <div class="fornecedor-acoes">
+                ${fornecedor.whatsapp ? `<a class="botao botao--whatsapp" href="https://wa.me/${fornecedor.whatsapp}" target="_blank" rel="noopener noreferrer">WhatsApp</a>` : ""}
+                ${fornecedor.site ? `<a class="botao" href="${escaparHtml(fornecedor.site)}" target="_blank" rel="noopener noreferrer">Site</a>` : ""}
+                <button class="remover-item" type="button" data-remove-fornecedor="${fornecedor.id}">Remover</button>
+            </div>
+        `;
+
+        lista.appendChild(card);
+    });
+}
+
+document.addEventListener("click", (event) => {
+    const removerFornecedor = event.target.closest("[data-remove-fornecedor]");
+
+    if (!removerFornecedor) {
+        return;
+    }
+
+    const fornecedores = lerFornecedoresAdicionados().filter((fornecedor) => {
+        return fornecedor.id !== removerFornecedor.dataset.removeFornecedor;
+    });
+
+    salvarFornecedoresAdicionados(fornecedores);
+    renderizarFornecedoresAdicionados();
+});
+
+function limparTelefone(telefone) {
+    const numeros = telefone.replace(/\D/g, "");
+
+    if (!numeros) {
+        return "";
+    }
+
+    return numeros.startsWith("55") ? numeros : `55${numeros}`;
+}
+
+function normalizarSite(site) {
+    if (!site) {
+        return "";
+    }
+
+    return /^https?:\/\//i.test(site) ? site : `https://${site}`;
+}
+
+function criarId() {
+    if (crypto.randomUUID) {
+        return crypto.randomUUID();
+    }
+
+    return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
 }
 
 function obterCampoQuantidade(controle) {
