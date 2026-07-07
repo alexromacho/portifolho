@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+  <title>Pedidos Fornecedores</title>
+  <rect width="512" height="512" rx="96" fill="#263c96"/>
+  <rect x="116" y="112" width="280" height="320" rx="32" fill="#ffffff"/>
+  <path d="M170 184h172M170 248h172M170 312h116" stroke="#263c96" stroke-width="28" stroke-linecap="round"/>
+  <circle cx="352" cy="346" r="54" fill="#1f9d55"/>
+  <path d="M328 346l18 18 34-42" fill="none" stroke="#ffffff" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

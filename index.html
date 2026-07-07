@@ -3,45 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>portifolho</title>
-    <link rel="stylesheet" href="/portifolho/assets.css/style.css">
+    <meta name="description" content="Portifolio de Alex Romacho, desenvolvedor front-end.">
+    <meta name="theme-color" content="#263c96">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Pedidos">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>Portfolio Alex Romacho</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="img/html.png">
+    <link rel="stylesheet" href="assets.css/style.css">
     <script src="java.js" defer></script>
 </head>
 <body>
-   <header>
-    
-      <nav class ="lista__de__compra">
-        <a class="lista__menu" href="vero.html" >joao vero</a>
-        <a class="lista__menu" href="aragua.html" >aragua</a>
-        <a class="lista__menu" href="wrEmbalagem.html" >WR Embalagens</a>
-      </nav>      
-   </header>
-  
-   <main class="apresentacao">
-    <section>
-        <h1 class= "apresentacao__titulo "><strong>Primeiro Site</strong></h1>
-        <p class="apresentacao__paragrafo">Sou desenvolvedor front-end com especialidade em React, HTML e CSS
-        Meu objetivo é ajudar pessoas a crescerem e desenvolverem suas habilidades profissionais.
-        Meu contato é: <a href="mailto:alex.sromacho@gmail.com">alex.sromacho@gmail.com</a> 
-          
-        
-        
-        
-        
-        <div class="apresentacao__link">
-                
-                <h2 class="texto_redes" > <strong> redes sociais </strong> </h2>
-                <a class="apressentacao_links_links"style="vertical-align:middle" href="https://www.instagram.com"> <span>instagram</span> </a> 
-                <a class="apressentacao_links_links" href="//github.com"><span> GitHub</span></a> 
-                <a class="apressentacao_links_links" href="https://www.linkedin.com/feed/?trk=guest_homepage-basic_google-one-tap-submit"><span> linkedin</span></a>
+    <header class="cabecalho">
+        <nav class="lista__de__compra" aria-label="Menu principal">
+            <a class="lista__menu" href="index.html">Inicio</a>
+            <a class="lista__menu" href="vero.html">Joao Vero</a>
+            <a class="lista__menu" href="aragua.html">Aragua</a>
+            <a class="lista__menu" href="wrEmbalagem.html">WR Embalagens</a>
+        </nav>
+    </header>
+
+    <main class="apresentacao">
+        <section class="apresentacao__conteudo">
+            <p class="apresentacao__etiqueta">Desenvolvedor front-end</p>
+            <h1 class="apresentacao__titulo">Primeiro Site</h1>
+            <p class="apresentacao__paragrafo">
+                Sou desenvolvedor front-end com especialidade em React,
+                <abbr title="HyperText Markup Language">HTML</abbr> e
+                <abbr title="Cascading Style Sheets">CSS</abbr>. Meu objetivo e
+                ajudar pessoas a crescerem e desenvolverem suas habilidades profissionais.
+            </p>
+
+            <div class="apresentacao__acoes">
+                <a class="apressentacao_links_links" href="mailto:alex.sromacho@gmail.com">Email</a>
+                <a class="apressentacao_links_links" href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a>
+                <a class="apressentacao_links_links" href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a class="apressentacao_links_links" href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn</a>
             </div>
-    </section>
-        </p>
+        </section>
+
+        <aside class="apresentacao__tecnologias" aria-label="Tecnologias">
+            <img src="img/html.png" alt="HTML">
+            <img src="img/css.png" alt="CSS">
+            <img src="img/js.png" alt="JavaScript">
+        </aside>
     </main>
 
-
+    <footer class="rodape">
+        <p>Criado por Alex</p>
+        <a href="curriculum vitae">Curriculum</a>
+    </footer>
 </body>
-<footer class="rodape">
-    <p>criado por alex</p>
-   </footer>
 </html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#263c96">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Pedidos">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>WR Embalagens</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="img/html.png">
+    <link rel="stylesheet" href="assets.css/style.css">
+    <script src="java.js" defer></script>
+</head>
+<body>
+    <header class="cabecalho">
+        <nav class="lista__de__compra" aria-label="Menu principal">
+            <a class="lista__menu" href="index.html">Inicio</a>
+            <a class="lista__menu" href="vero.html">Joao Vero</a>
+            <a class="lista__menu" href="aragua.html">Aragua</a>
+            <a class="lista__menu" href="wrEmbalagem.html">WR Embalagens</a>
+        </nav>
+    </header>
+
+    <main class="content">
+        <h1>WR Embalagens</h1>
+
+        <form class="formulario" id="pedidoWr">
+            <fieldset class="item-extra">
+                <legend>Adicionar item</legend>
+
+                <div class="campo">
+                    <label for="itemExtraWr">Item</label>
+                    <input type="text" id="itemExtraWr" name="itemExtra" placeholder="Nome do item">
+                </div>
+
+                <div class="campo">
+                    <label for="quantidadeExtraWr">Quantidade</label>
+                    <input type="number" id="quantidadeExtraWr" name="quantidadeExtra" value="0" min="0">
+                </div>
+
+                <button class="botao botao--secundario" type="button" data-add-item>Adicionar item na lista</button>
+            </fieldset>
+
+            <ul class="lista-itens" aria-label="Itens adicionados"></ul>
+            <p class="pedido__mensagem" id="mensagemWr" aria-live="polite"></p>
+            <button class="botao botao--whatsapp" type="submit">Enviar pedido pelo WhatsApp</button>
+        </form>
+    </main>
+
+    <footer class="rodape">
+        <p>Criado por Alex</p>
+    </footer>
+</body>
+</html>
