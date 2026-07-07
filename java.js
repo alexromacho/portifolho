@@ -6,6 +6,7 @@ document.addEventListener("click", (event) => {
 
     if (botaoQuantidade) {
         alterarQuantidade(botaoQuantidade);
+        salvarItensAdicionados(botaoQuantidade.closest("form"));
     }
 
     if (botaoAdicionar) {
@@ -13,11 +14,23 @@ document.addEventListener("click", (event) => {
     }
 
     if (botaoRemover) {
+        const formulario = botaoRemover.closest("form");
+
         botaoRemover.closest("li").remove();
+        salvarItensAdicionados(formulario);
     }
 
     if (botaoRemoverLinha) {
+        const formulario = botaoRemoverLinha.closest("form");
+
         botaoRemoverLinha.closest("tr").remove();
+        salvarItensAdicionados(formulario);
+    }
+});
+
+document.addEventListener("input", (event) => {
+    if (event.target.matches(".qty__input")) {
+        salvarItensAdicionados(event.target.closest("form"));
     }
 });
 
@@ -34,6 +47,8 @@ document.querySelectorAll("#pedidoVero tbody tr").forEach((linha) => {
 const pedidoAgua = document.querySelector("#pedidoAgua");
 
 if (pedidoAgua) {
+    restaurarItensAdicionados(pedidoAgua);
+
     pedidoAgua.addEventListener("submit", (event) => {
         event.preventDefault();
 
@@ -66,6 +81,8 @@ if (pedidoAgua) {
 const pedidoVero = document.querySelector("#pedidoVero");
 
 if (pedidoVero) {
+    restaurarItensAdicionados(pedidoVero);
+
     pedidoVero.addEventListener("submit", (event) => {
         event.preventDefault();
 
@@ -92,6 +109,8 @@ if (pedidoVero) {
 const pedidoWr = document.querySelector("#pedidoWr");
 
 if (pedidoWr) {
+    restaurarItensAdicionados(pedidoWr);
+
     pedidoWr.addEventListener("submit", (event) => {
         event.preventDefault();
 
@@ -141,6 +160,8 @@ function adicionarItemNaLista(formulario) {
         adicionarLinhaNaLista(formulario, item);
     }
 
+    salvarItensAdicionados(formulario);
+
     if (mensagem) {
         mensagem.textContent = "";
     }
@@ -154,6 +175,7 @@ function adicionarLinhaNaTabela(formulario, item) {
     const linha = document.createElement("tr");
 
     linha.dataset.produto = item;
+    linha.dataset.adicionado = "true";
     linha.innerHTML = `
         <td>${escaparHtml(item)}</td>
         <td>
@@ -185,7 +207,7 @@ function adicionarBotaoRemoverLinha(linha) {
     controle.appendChild(botao);
 }
 
-function adicionarLinhaNaLista(formulario, item) {
+function adicionarLinhaNaLista(formulario, item, quantidade = 0) {
     const lista = formulario.querySelector(".lista-itens");
     const linha = document.createElement("li");
 
@@ -194,13 +216,57 @@ function adicionarLinhaNaLista(formulario, item) {
         <span>${escaparHtml(item)}</span>
         <div class="qty">
             <button type="button">-</button>
-            <span></span>
+            <span>${quantidade || ""}</span>
             <button type="button">+</button>
         </div>
         <button class="remover-item" type="button" data-remove-item>Remover</button>
     `;
 
     lista.appendChild(linha);
+}
+
+function salvarItensAdicionados(formulario) {
+    if (!formulario) {
+        return;
+    }
+
+    const itens = obterItensParaSalvar(formulario);
+
+    localStorage.setItem(`itens-${formulario.id}`, JSON.stringify(itens));
+}
+
+function restaurarItensAdicionados(formulario) {
+    const itensSalvos = JSON.parse(localStorage.getItem(`itens-${formulario.id}`) || "[]");
+
+    itensSalvos.forEach((item) => {
+        if (formulario.id === "pedidoVero") {
+            adicionarLinhaNaTabela(formulario, item.produto);
+            definirQuantidade(
+                obterCampoQuantidade(formulario.querySelector("tbody tr:last-child .qty")),
+                item.quantidade
+            );
+        } else {
+            adicionarLinhaNaLista(formulario, item.produto, item.quantidade);
+        }
+    });
+}
+
+function obterItensParaSalvar(formulario) {
+    if (formulario.id === "pedidoVero") {
+        return Array.from(formulario.querySelectorAll('tbody tr[data-adicionado="true"]')).map((linha) => {
+            return {
+                produto: linha.dataset.produto,
+                quantidade: obterQuantidade(linha.querySelector(".qty")),
+            };
+        });
+    }
+
+    return Array.from(formulario.querySelectorAll(".lista-itens li")).map((linha) => {
+        return {
+            produto: linha.dataset.produto,
+            quantidade: obterQuantidade(linha.querySelector(".qty")),
+        };
+    });
 }
 
 function buscarItensAdicionados(formulario) {
