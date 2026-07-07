@@ -170,6 +170,24 @@ th {
     width: 32px;
 }
 
+.qty__input {
+    border: 1px solid #b8c6d6;
+    border-radius: 6px;
+    color: #1f2937;
+    font-size: 1rem;
+    font-weight: 700;
+    height: 32px;
+    padding: 0;
+    text-align: center;
+    width: 32px;
+}
+
+.qty__input::-webkit-inner-spin-button,
+.qty__input::-webkit-outer-spin-button {
+    appearance: none;
+    margin: 0;
+}
+
 .formulario {
     background: #ffffff;
     border: 1px solid #d9e2ec;

@@ -72,7 +72,7 @@ if (pedidoVero) {
         const itens = Array.from(pedidoVero.querySelectorAll("tbody tr"))
             .map((linha) => {
                 const produto = linha.dataset.produto;
-                const quantidade = Number(linha.querySelector(".qty span").textContent);
+                const quantidade = obterQuantidade(linha.querySelector(".qty"));
 
                 return `${quantidade}x ${produto}`;
             })
@@ -111,15 +111,15 @@ if (pedidoWr) {
 function alterarQuantidade(botao) {
     const controle = botao.closest(".qty");
     const botoes = Array.from(controle.querySelectorAll("button"));
-    const valor = controle.querySelector("span");
-    const atual = Number(valor.textContent) || 0;
+    const valor = obterCampoQuantidade(controle);
+    const atual = obterQuantidade(controle);
 
     if (botao === botoes[0]) {
-        valor.textContent = Math.max(0, atual - 1);
+        definirQuantidade(valor, Math.max(0, atual - 1));
         return;
     }
 
-    valor.textContent = atual + 1;
+    definirQuantidade(valor, atual + 1);
 }
 
 function adicionarItemNaLista(formulario) {
@@ -159,7 +159,7 @@ function adicionarLinhaNaTabela(formulario, item) {
         <td>
             <div class="qty">
                 <button type="button">-</button>
-                <span></span>
+                <input class="qty__input" type="number" min="0" inputmode="numeric" aria-label="Quantidade">
                 <button type="button">+</button>
                 <button class="remover-item" type="button" data-remove-row>Remover</button>
             </div>
@@ -206,7 +206,7 @@ function adicionarLinhaNaLista(formulario, item) {
 function buscarItensAdicionados(formulario) {
     return Array.from(formulario.querySelectorAll(".lista-itens li"))
         .map((linha) => {
-            const quantidade = Number(linha.querySelector(".qty span").textContent) || 0;
+            const quantidade = obterQuantidade(linha.querySelector(".qty"));
 
             return `${quantidade}x ${linha.dataset.produto}`;
         })
@@ -226,6 +226,25 @@ function enviarPedidoWhatsapp(fornecedor, itens) {
     ].join("\n");
 
     window.open(`https://wa.me/${telefones[fornecedor]}?text=${encodeURIComponent(texto)}`, "_blank");
+}
+
+function obterCampoQuantidade(controle) {
+    return controle.querySelector(".qty__input") || controle.querySelector("span");
+}
+
+function obterQuantidade(controle) {
+    const campo = obterCampoQuantidade(controle);
+
+    return Number(campo.value || campo.textContent) || 0;
+}
+
+function definirQuantidade(campo, quantidade) {
+    if (campo.matches("input")) {
+        campo.value = quantidade || "";
+        return;
+    }
+
+    campo.textContent = quantidade || "";
 }
 
 function escaparHtml(texto) {
