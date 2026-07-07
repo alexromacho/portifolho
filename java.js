@@ -29,7 +29,7 @@ document.addEventListener("click", (event) => {
 });
 
 document.addEventListener("input", (event) => {
-    if (event.target.matches(".qty__input, .valor-item")) {
+    if (event.target.matches(".qty__input, .numero-item")) {
         salvarItensAdicionados(event.target.closest("form"));
     }
 });
@@ -166,23 +166,21 @@ if (fornecedorForm) {
 function alterarQuantidade(botao) {
     const controle = botao.closest(".qty");
     const botoes = Array.from(controle.querySelectorAll("button"));
-    const valor = obterCampoQuantidade(controle);
+    const campo = obterCampoQuantidade(controle);
     const atual = obterQuantidade(controle);
 
     if (botao === botoes[0]) {
-        definirQuantidade(valor, Math.max(0, atual - 1));
+        definirQuantidade(campo, Math.max(0, atual - 1));
         return;
     }
 
-    definirQuantidade(valor, atual + 1);
+    definirQuantidade(campo, atual + 1);
 }
 
 function adicionarItemNaLista(formulario) {
     const itemInput = formulario.querySelector('[name="itemExtra"]');
-    const valorInput = formulario.querySelector('[name="valorExtra"]');
     const mensagem = formulario.querySelector(".pedido__mensagem");
     const item = itemInput.value.trim();
-    const valor = valorInput ? valorInput.value.trim() : "";
 
     if (!item) {
         if (mensagem) {
@@ -195,7 +193,7 @@ function adicionarItemNaLista(formulario) {
     if (formulario.id === "pedidoVero") {
         adicionarLinhaNaTabela(formulario, item);
     } else if (formulario.id === "pedidoWr") {
-        adicionarLinhaSimples(formulario, item, valor);
+        adicionarLinhaSimples(formulario, item);
     } else {
         adicionarLinhaNaLista(formulario, item);
     }
@@ -207,9 +205,6 @@ function adicionarItemNaLista(formulario) {
     }
 
     itemInput.value = "";
-    if (valorInput) {
-        valorInput.value = "";
-    }
     itemInput.focus();
 }
 
@@ -293,7 +288,7 @@ function restaurarItensAdicionados(formulario) {
                 item.quantidade
             );
         } else if (formulario.id === "pedidoWr") {
-            adicionarLinhaSimples(formulario, item.produto, item.valor);
+            adicionarLinhaSimples(formulario, item.produto, item.numero);
         } else {
             adicionarLinhaNaLista(formulario, item.produto, item.quantidade);
         }
@@ -319,21 +314,21 @@ function obterItensParaSalvar(formulario) {
     }
 
     return Array.from(formulario.querySelectorAll(".lista-itens li")).map((linha) => {
-            return {
-                produto: linha.dataset.produto,
-                quantidade: linha.querySelector(".qty") ? obterQuantidade(linha.querySelector(".qty")) : 1,
-                valor: linha.querySelector(".valor-item") ? linha.querySelector(".valor-item").value.trim() : "",
-            };
-        });
+        return {
+            produto: linha.dataset.produto,
+            quantidade: linha.querySelector(".qty") ? obterQuantidade(linha.querySelector(".qty")) : 1,
+            numero: linha.querySelector(".numero-item") ? linha.querySelector(".numero-item").value.trim() : "",
+        };
+    });
 }
 
 function buscarItensAdicionados(formulario) {
     return Array.from(formulario.querySelectorAll(".lista-itens li"))
         .map((linha) => {
             if (formulario.id === "pedidoWr") {
-                const valor = linha.querySelector(".valor-item").value.trim();
+                const numero = linha.querySelector(".numero-item").value.trim();
 
-                return valor ? `${linha.dataset.produto} - R$ ${valor}` : linha.dataset.produto;
+                return numero ? `${linha.dataset.produto} - ${numero}` : linha.dataset.produto;
             }
 
             const quantidade = obterQuantidade(linha.querySelector(".qty"));
@@ -343,14 +338,14 @@ function buscarItensAdicionados(formulario) {
         .filter((item) => !item.startsWith("0x "));
 }
 
-function adicionarLinhaSimples(formulario, item, valor = "") {
+function adicionarLinhaSimples(formulario, item, numero = "") {
     const lista = formulario.querySelector(".lista-itens");
     const linha = document.createElement("li");
 
     linha.dataset.produto = item;
     linha.innerHTML = `
         <span>${escaparHtml(item)}</span>
-        <input class="valor-item" type="text" inputmode="decimal" aria-label="Valor" placeholder="Valor" value="${escaparHtml(valor)}">
+        <input class="numero-item" type="number" inputmode="numeric" aria-label="Numero" placeholder="Numero" value="${escaparHtml(numero)}">
         <button class="remover-item" type="button" data-remove-item>Remover</button>
     `;
 
