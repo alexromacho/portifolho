@@ -254,6 +254,12 @@ th {
     width: auto;
 }
 
+.qty .remover-item {
+    border: 0;
+    height: auto;
+    width: auto;
+}
+
 .pedido {
     display: grid;
     gap: 16px;

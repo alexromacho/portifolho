@@ -124,23 +124,21 @@ function alterarQuantidade(botao) {
 
 function adicionarItemNaLista(formulario) {
     const itemInput = formulario.querySelector('[name="itemExtra"]');
-    const quantidadeInput = formulario.querySelector('[name="quantidadeExtra"]');
     const mensagem = formulario.querySelector(".pedido__mensagem");
     const item = itemInput.value.trim();
-    const quantidade = Number(quantidadeInput.value);
 
-    if (!item || quantidade <= 0) {
+    if (!item) {
         if (mensagem) {
-            mensagem.textContent = "Digite o item e a quantidade para adicionar na lista.";
+            mensagem.textContent = "Digite o nome do item para adicionar na lista.";
         }
 
         return;
     }
 
     if (formulario.id === "pedidoVero") {
-        adicionarLinhaNaTabela(formulario, item, quantidade);
+        adicionarLinhaNaTabela(formulario, item);
     } else {
-        adicionarLinhaNaLista(formulario, item, quantidade);
+        adicionarLinhaNaLista(formulario, item);
     }
 
     if (mensagem) {
@@ -148,11 +146,10 @@ function adicionarItemNaLista(formulario) {
     }
 
     itemInput.value = "";
-    quantidadeInput.value = "";
     itemInput.focus();
 }
 
-function adicionarLinhaNaTabela(formulario, item, quantidade) {
+function adicionarLinhaNaTabela(formulario, item) {
     const corpoTabela = formulario.querySelector("tbody");
     const linha = document.createElement("tr");
 
@@ -162,7 +159,7 @@ function adicionarLinhaNaTabela(formulario, item, quantidade) {
         <td>
             <div class="qty">
                 <button type="button">-</button>
-                <span>${quantidade}</span>
+                <span></span>
                 <button type="button">+</button>
                 <button class="remover-item" type="button" data-remove-row>Remover</button>
             </div>
@@ -188,14 +185,18 @@ function adicionarBotaoRemoverLinha(linha) {
     controle.appendChild(botao);
 }
 
-function adicionarLinhaNaLista(formulario, item, quantidade) {
+function adicionarLinhaNaLista(formulario, item) {
     const lista = formulario.querySelector(".lista-itens");
     const linha = document.createElement("li");
 
     linha.dataset.produto = item;
-    linha.dataset.quantidade = String(quantidade);
     linha.innerHTML = `
-        <span>${quantidade}x ${escaparHtml(item)}</span>
+        <span>${escaparHtml(item)}</span>
+        <div class="qty">
+            <button type="button">-</button>
+            <span></span>
+            <button type="button">+</button>
+        </div>
         <button class="remover-item" type="button" data-remove-item>Remover</button>
     `;
 
@@ -203,9 +204,13 @@ function adicionarLinhaNaLista(formulario, item, quantidade) {
 }
 
 function buscarItensAdicionados(formulario) {
-    return Array.from(formulario.querySelectorAll(".lista-itens li")).map((linha) => {
-        return `${linha.dataset.quantidade}x ${linha.dataset.produto}`;
-    });
+    return Array.from(formulario.querySelectorAll(".lista-itens li"))
+        .map((linha) => {
+            const quantidade = Number(linha.querySelector(".qty span").textContent) || 0;
+
+            return `${quantidade}x ${linha.dataset.produto}`;
+        })
+        .filter((item) => !item.startsWith("0x "));
 }
 
 function enviarPedidoWhatsapp(fornecedor, itens) {
