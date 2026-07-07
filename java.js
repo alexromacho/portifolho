@@ -112,7 +112,7 @@ function alterarQuantidade(botao) {
     const controle = botao.closest(".qty");
     const botoes = Array.from(controle.querySelectorAll("button"));
     const valor = controle.querySelector("span");
-    const atual = Number(valor.textContent);
+    const atual = Number(valor.textContent) || 0;
 
     if (botao === botoes[0]) {
         valor.textContent = Math.max(0, atual - 1);
@@ -148,7 +148,7 @@ function adicionarItemNaLista(formulario) {
     }
 
     itemInput.value = "";
-    quantidadeInput.value = "0";
+    quantidadeInput.value = "";
     itemInput.focus();
 }
 

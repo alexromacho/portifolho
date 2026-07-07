@@ -250,6 +250,8 @@ th {
     color: #b42318;
     cursor: pointer;
     font-weight: 700;
+    height: auto;
+    width: auto;
 }
 
 .pedido {
