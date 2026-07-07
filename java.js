@@ -269,9 +269,11 @@ function salvarItensAdicionados(formulario) {
     }
 
     const itens = obterItensParaSalvar(formulario);
+    const conteudo = JSON.stringify(itens);
 
     try {
-        localStorage.setItem(`itens-${formulario.id}`, JSON.stringify(itens));
+        localStorage.setItem(chaveItens(formulario), conteudo);
+        localStorage.setItem(chaveBackupItens(formulario), conteudo);
     } catch (erro) {
         console.warn("Nao foi possivel salvar os itens.", erro);
     }
@@ -297,10 +299,20 @@ function restaurarItensAdicionados(formulario) {
 
 function lerItensSalvos(formulario) {
     try {
-        return JSON.parse(localStorage.getItem(`itens-${formulario.id}`) || "[]");
+        const salvo = localStorage.getItem(chaveItens(formulario)) || localStorage.getItem(chaveBackupItens(formulario));
+
+        return JSON.parse(salvo || "[]");
     } catch {
         return [];
     }
+}
+
+function chaveItens(formulario) {
+    return `pedidos:${location.pathname}:${formulario.id}`;
+}
+
+function chaveBackupItens(formulario) {
+    return `itens-${formulario.id}`;
 }
 
 function obterItensParaSalvar(formulario) {
